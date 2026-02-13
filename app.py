@@ -2,7 +2,6 @@ import os
 from flask import Flask, request, jsonify
 import csv
 from datetime import datetime
-import csv
 from datetime import datetime
 import requests
 from flask_cors import CORS
@@ -125,19 +124,6 @@ def chat():
             requests.post(submit_url, data=form_data)
         except Exception as e:
             print(f"Google Forms logging failed: {e}")
-
-    # 2. Always log to local CSV as backup
-    log_file = "chat_logs.csv"
-    try:
-        with open(log_file, "a", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            # Check if file is empty to write header
-            if f.tell() == 0:
-                writer.writerow(["Timestamp", "User Question", "Bot Response", "Error"])
-            
-            writer.writerow([timestamp, user_message, reply_text, error_message or ""])
-    except Exception as log_error:
-        print(f"Failed to log interaction locally: {log_error}")
 
     if error_message:
         return jsonify({"error": reply_text}), 503
