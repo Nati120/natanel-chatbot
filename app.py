@@ -1,5 +1,10 @@
 import os
 from flask import Flask, request, jsonify
+import csv
+from datetime import datetime
+import csv
+from datetime import datetime
+import requests
 from flask_cors import CORS
 from dotenv import load_dotenv
 from google import genai
@@ -75,16 +80,67 @@ def chat():
     # Combine system prompt + user question
     full_prompt = SYSTEM_PROMPT + "\n\nUser question:\n" + user_message
 
-    # Send to Gemini
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=[{
-            "role": "user",
-            "parts": [{"text": full_prompt}]
-        }],
-    )
+    reply_text = ""
+    error_message = None
 
-    reply_text = response.text
+    try:
+        # Send to Gemini
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=[{
+                "role": "user",
+                "parts": [{"text": full_prompt}]
+            }],
+        )
+        reply_text = response.text
+    except Exception as e:
+        error_message = str(e)
+        reply_text = "I'm currently experiencing high traffic (API Quota Exceeded). Please try again in a minute."
+
+    # --------------------------------------
+    # Log the interaction (Google Sheets + CSV Fallback)
+    # --------------------------------------
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # --------------------------------------
+    # Log the interaction (Google Forms + CSV Fallback)
+    # --------------------------------------
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # 1. Try Google Forms (if configured)
+    GOOGLE_FORM_URL = os.getenv("GOOGLE_FORM_URL")
+    if GOOGLE_FORM_URL:
+        try:
+            # You must inspect your pre-filled link to find these entry IDs!
+            # They look like 'entry.123456789'.
+            # Replace these placeholders with your ACTUAL entry IDs.
+            form_data = {
+                "entry.2092613248": timestamp,       # Timestamp field ID
+                "entry.497192098": user_message,     # User Question field ID
+                "entry.816499775": reply_text,       # Bot Response field ID
+                "entry.1002436360": error_message or "" # Error field ID
+            }
+            # We use the 'formResponse' endpoint to submit data
+            submit_url = GOOGLE_FORM_URL.replace("viewform", "formResponse")
+            requests.post(submit_url, data=form_data)
+        except Exception as e:
+            print(f"Google Forms logging failed: {e}")
+
+    # 2. Always log to local CSV as backup
+    log_file = "chat_logs.csv"
+    try:
+        with open(log_file, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            # Check if file is empty to write header
+            if f.tell() == 0:
+                writer.writerow(["Timestamp", "User Question", "Bot Response", "Error"])
+            
+            writer.writerow([timestamp, user_message, reply_text, error_message or ""])
+    except Exception as log_error:
+        print(f"Failed to log interaction locally: {log_error}")
+
+    if error_message:
+        return jsonify({"error": reply_text}), 503
 
     # Currently no multi-turn history (simple Q&A)
     return jsonify({
