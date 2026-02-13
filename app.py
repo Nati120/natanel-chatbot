@@ -1,7 +1,5 @@
 import os
 from flask import Flask, request, jsonify
-import csv
-from datetime import datetime
 from datetime import datetime
 import requests
 from flask_cors import CORS
@@ -97,12 +95,7 @@ def chat():
         reply_text = "I'm currently experiencing high traffic (API Quota Exceeded). Please try again in a minute."
 
     # --------------------------------------
-    # Log the interaction (Google Sheets + CSV Fallback)
-    # --------------------------------------
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # --------------------------------------
-    # Log the interaction (Google Forms + CSV Fallback)
+    # Log the interaction (Google Forms)
     # --------------------------------------
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
