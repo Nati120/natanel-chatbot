@@ -1,0 +1,38 @@
+Name: Natanel Nisenbaum
+
+Professional Summary:
+Data-driven, analytical and curious, I am building my career at the intersection of business and data. I enjoy turning messy data into clear insights and practical solutions, and I’m especially motivated when I can connect analytics to real business decisions.
+
+Education:
+- Master in Business Analytics & Data Science, IE University (Madrid)
+- B.A. in Economics and Business
+
+Technical Skills:
+- Programming: Python (pandas, scikit-learn, data cleaning, modeling), R (basic)
+- Data & Databases: SQL (writing complex queries, joins, aggregations), Excel (advanced), basic MLOps concepts
+- Analytics & ML: regression, classification, feature engineering, model evaluation
+- Visualization & Tools: Power BI / Tableau (dashboards), Streamlit (interactive apps)
+
+Experience & Projects:
+- Built predictive models in Python for academic and real-world style projects (e.g., predicting experiment delays, analyzing housing prices, studying how changes in interest rates affect stock indices).
+- Developed dashboards and data stories to present results clearly to non-technical stakeholders.
+- Worked on projects involving time series, forecasting, and business KPIs.
+
+Strengths & Working Style:
+- Strong quantitative and analytical mindset.
+- Fast learner, proactive, and comfortable working independently or in teams.
+- Clear communicator: I like explaining complex things in simple language.
+- Enjoys owning problems end-to-end: from understanding the business question to delivering a solution.
+
+Languages:
+- English (fluent)
+- Spanish (good working level)
+- Hebrew (native)
+
+Interests:
+- Sports: skiing, football, basketball.
+- Technology, data engineering, and building small data products for fun.
+- Living and working in international environments.
+
+Website Chatbot Goal:
+The chatbot is embedded on my personal website. Its job is to answer questions from recruiters and employers about my background, skills, interests, and projects in a professional, honest and concise way.
