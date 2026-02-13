@@ -1,38 +1,134 @@
-Name: Natanel Nisenbaum
+Natanel Nisenbaum
 
-Professional Summary:
-Data-driven, analytical and curious, I am building my career at the intersection of business and data. I enjoy turning messy data into clear insights and practical solutions, and I’m especially motivated when I can connect analytics to real business decisions.
+Professional Summary: I am a data-driven, analytical, and curious
+Master’s student in Business Analytics & Data Science at IE University
+in Madrid. I am building my career at the intersection of business,
+data, and artificial intelligence. I enjoy turning messy data into
+structured insights and practical solutions, especially when analytics
+and AI can directly support real business decisions.
+
+I am originally from a small town near Jerusalem in Israel. I completed
+an exchange semester in Bogotá, Colombia, and I currently live in
+Madrid. I am a dual German–Israeli national and thrive in multicultural,
+international environments.
+
+I am particularly passionate about Artificial Intelligence and Machine
+Learning. I am especially interested in understanding how models move
+from experimentation in notebooks to real-world application and
+measurable business impact.
+
+------------------------------------------------------------------------
 
 Education:
-- Master in Business Analytics & Data Science, IE University (Madrid)
-- B.A. in Economics and Business
+
+Master in Business Analytics & Data Science IE University, Madrid
+
+Relevant Coursework: - Big Data & Artificial Intelligence in Business
+Strategy. - Big Data & Artificial Intelligence in Operations
+Management. - Modern Data Architectures for Big Data. - SQL-Based Data
+Architectures. - NoSQL Databases. - Python for Data Analysis. - Excel
+for Data Science. - Statistics for Data Science. - Machine Learning. -
+MLOps: Machine Learning Operations. - Deep Learning. - Generative AI. -
+Artificial Intelligence in Banking. - Web3, Blockchain, Cryptocurrencies
+& NFTs.
+
+B.A. in Economics and Business Reichman University, Herzliya, Israel
+
+Relevant Coursework: - Futures and Options Markets. - Capital Markets. -
+Financial Risk Management. - Financial Modeling. - Macroeconomics. -
+Microeconomics. - Econometrics. - Data Analysis for Business. - Data
+Science with R. - Databases with SQL.
+
+------------------------------------------------------------------------
 
 Technical Skills:
-- Programming: Python (pandas, scikit-learn, data cleaning, modeling), R (basic)
-- Data & Databases: SQL (writing complex queries, joins, aggregations), Excel (advanced), basic MLOps concepts
-- Analytics & ML: regression, classification, feature engineering, model evaluation
-- Visualization & Tools: Power BI / Tableau (dashboards), Streamlit (interactive apps)
+
+Programming: - Python: pandas, NumPy, scikit-learn, XGBoost, basic
+TensorFlow and PyTorch, data cleaning, and modeling. - R: statistical
+analysis.
+
+Data & Databases: - SQL: complex queries, joins, aggregations, and
+window functions. - Excel: advanced modeling, pivot tables, and scenario
+analysis. - NoSQL concepts. - Basic MLOps concepts.
+
+Analytics & Machine Learning: - Regression and classification models. -
+Feature engineering and feature selection. - Hyperparameter tuning and
+cross-validation. - Model evaluation: MAE, RMSE, F1-score, ROC-AUC. -
+Time series forecasting. - Ensemble models such as Random Forest and
+Gradient Boosting. - Fundamentals of deep learning and generative AI.
+
+Visualization & Tools: - Power BI and Tableau for dashboards. -
+Streamlit for interactive applications. - Structured data storytelling
+for business stakeholders.
+
+------------------------------------------------------------------------
 
 Experience & Projects:
-- Built predictive models in Python for academic and real-world style projects (e.g., predicting experiment delays, analyzing housing prices, studying how changes in interest rates affect stock indices).
-- Developed dashboards and data stories to present results clearly to non-technical stakeholders.
-- Worked on projects involving time series, forecasting, and business KPIs.
+
+-   Built predictive models in Python for academic and applied business
+    cases, including experiment delay prediction, housing price
+    analysis, and interest rate impact on stock indices.
+-   Designed end-to-end workflows: business understanding, data
+    cleaning, feature engineering, modeling, evaluation, and
+    presentation.
+-   Developed dashboards and data stories to communicate insights
+    clearly to non-technical stakeholders.
+-   Worked on time series forecasting and business KPI analysis.
+-   Applied econometric and statistical modeling to real-world economic
+    and financial datasets.
+-   Explored ML lifecycle concepts and reproducible workflows through
+    academic exposure to MLOps principles.
+
+------------------------------------------------------------------------
 
 Strengths & Working Style:
-- Strong quantitative and analytical mindset.
-- Fast learner, proactive, and comfortable working independently or in teams.
-- Clear communicator: I like explaining complex things in simple language.
-- Enjoys owning problems end-to-end: from understanding the business question to delivering a solution.
+
+-   Strong quantitative and analytical mindset.
+-   Strategic thinking: connecting technical outputs to business
+    implications.
+-   Fast learner and proactive problem solver.
+-   Clear communicator who explains complex topics in simple language.
+-   High ownership mentality and end-to-end responsibility.
+-   Adaptable and resilient in new environments.
+-   Curious about emerging AI technologies and continuous improvement.
+
+------------------------------------------------------------------------
 
 Languages:
-- English (fluent)
-- Spanish (good working level)
-- Hebrew (native)
+
+-   English: Fluent.
+-   Spanish: Good working level.
+-   Hebrew: Native.
+
+------------------------------------------------------------------------
 
 Interests:
-- Sports: skiing, football, basketball.
-- Technology, data engineering, and building small data products for fun.
-- Living and working in international environments.
+
+-   Sports: skiing, football, and basketball.
+-   Artificial Intelligence and emerging technologies.
+-   Building small AI and data projects.
+-   Living and working in international environments.
+
+------------------------------------------------------------------------
 
 Website Chatbot Goal:
-The chatbot is embedded on my personal website. Its job is to answer questions from recruiters and employers about my background, skills, interests, and projects in a professional, honest and concise way.
+
+The chatbot is embedded on my personal website. Its role is to answer
+questions from recruiters and employers about my background, skills,
+international experience, technical capabilities, and projects in a
+professional, structured, and concise way.
+
+It should: - Emphasize my Master’s in Business Analytics & Data
+Science. - Highlight my AI and Machine Learning knowledge. - Reflect my
+international background. - Maintain a confident and professional tone.
+
+------------------------------------------------------------------------
+
+Contact:
+
+If someone would like to get in contact with me, they can scroll to the
+bottom of the page. There, they will find: - A button to send me an
+email directly. - A button that redirects to my LinkedIn profile.
+
+I welcome professional conversations, collaboration opportunities, and
+networking discussions.
