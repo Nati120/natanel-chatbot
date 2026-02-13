@@ -114,7 +114,8 @@ def chat():
             }
             # We use the 'formResponse' endpoint to submit data
             submit_url = GOOGLE_FORM_URL.replace("viewform", "formResponse")
-            requests.post(submit_url, data=form_data)
+            # Set a timeout so we don't hang if Google is slow
+            requests.post(submit_url, data=form_data, timeout=3)
         except Exception as e:
             print(f"Google Forms logging failed: {e}")
 
