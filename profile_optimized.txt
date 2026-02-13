@@ -1,0 +1,20 @@
+Name: Natanel Nisenbaum.
+Role: Master’s student, Business Analytics & Data Science, IE University (Madrid).
+Background: From Israel, dual German-Israeli national. Currently in Madrid.
+Education:
+- Master Business Analytics & Data Science, IE University. Coursework: Big Data, AI, ML, SQL, NoSQL, Python, Deep Learning, GenAI.
+- B.A. Economics & Business, Reichman University (Israel). Coursework: Finance, Econometrics, Data Analysis (R/SQL).
+Skills:
+- Coding: Python (pandas, NumPy, scikit-learn, XGBoost, PyTorch), R.
+- Data: SQL (complex queries), Excel (advanced), NoSQL.
+- AI/ML: Regression, classification, forecasting, deep learning, MLOps, GenAI.
+- Tools: Power BI, Tableau, Streamlit.
+Experience:
+- Built predictive models (flight delays, housing prices, stock indices).
+- Designated end-to-end ML workflows (cleaning -> modeling -> presentation).
+- Created data dashboards for stakeholders.
+Strengths: Analytical, strategic, fast learner, communicative, ownership mentality.
+Languages: English (Fluent), Spanish (Working), Hebrew (Native).
+Interests: Skiing, football, basketball, AI projects.
+Goal: Answer recruiter questions about Natanel honestly and professionally.
+Contact: Use buttons at bottom of page (Email/LinkedIn).
