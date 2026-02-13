@@ -1,4 +1,5 @@
 import os
+import threading
 from flask import Flask, request, jsonify
 from datetime import datetime
 import requests
@@ -57,6 +58,33 @@ Rules:
 """
 
 # --------------------------------------
+# Helper: Log to Google Forms
+# --------------------------------------
+def log_to_google_forms(user_message, reply_text, error_message):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    GOOGLE_FORM_URL = os.getenv("GOOGLE_FORM_URL")
+    if not GOOGLE_FORM_URL:
+        return
+
+    try:
+        # You must inspect your pre-filled link to find these entry IDs!
+        # They look like 'entry.123456789'.
+        # Replace these placeholders with your ACTUAL entry IDs.
+        form_data = {
+            "entry.2092613248": timestamp,       # Timestamp field ID
+            "entry.497192098": user_message,     # User Question field ID
+            "entry.816499775": reply_text,       # Bot Response field ID
+            "entry.1002436360": error_message or "" # Error field ID
+        }
+        # We use the 'formResponse' endpoint to submit data
+        submit_url = GOOGLE_FORM_URL.replace("viewform", "formResponse")
+        # Set a timeout so we don't hang if Google is slow
+        requests.post(submit_url, data=form_data, timeout=3)
+        print(f"Google Forms logging successful for message: {user_message[:20]}...")
+    except Exception as e:
+        print(f"Google Forms logging failed: {e}")
+
+# --------------------------------------
 # Flask App
 # --------------------------------------
 app = Flask(__name__)
@@ -95,29 +123,13 @@ def chat():
         reply_text = "I'm currently experiencing high traffic (API Quota Exceeded). Please try again in a minute."
 
     # --------------------------------------
-    # Log the interaction (Google Forms)
+    # Log to Google Forms in steps
     # --------------------------------------
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    def log_background(msg, reply, err):
+        log_to_google_forms(msg, reply, err)
 
-    # 1. Try Google Forms (if configured)
-    GOOGLE_FORM_URL = os.getenv("GOOGLE_FORM_URL")
-    if GOOGLE_FORM_URL:
-        try:
-            # You must inspect your pre-filled link to find these entry IDs!
-            # They look like 'entry.123456789'.
-            # Replace these placeholders with your ACTUAL entry IDs.
-            form_data = {
-                "entry.2092613248": timestamp,       # Timestamp field ID
-                "entry.497192098": user_message,     # User Question field ID
-                "entry.816499775": reply_text,       # Bot Response field ID
-                "entry.1002436360": error_message or "" # Error field ID
-            }
-            # We use the 'formResponse' endpoint to submit data
-            submit_url = GOOGLE_FORM_URL.replace("viewform", "formResponse")
-            # Set a timeout so we don't hang if Google is slow
-            requests.post(submit_url, data=form_data, timeout=3)
-        except Exception as e:
-            print(f"Google Forms logging failed: {e}")
+    # Start logging in a background thread so we don't block the response
+    threading.Thread(target=log_background, args=(user_message, reply_text, error_message)).start()
 
     if error_message:
         return jsonify({"error": reply_text}), 503
