@@ -4,32 +4,30 @@ from flask import Flask, request, jsonify
 from datetime import datetime
 import requests
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
-from google import genai
-from google.genai import types
+import anthropic
 
 # --------------------------------------
 # Load API key from .env
 # --------------------------------------
 load_dotenv()
-API_KEY = os.getenv("GEMINI_API_KEY")
+API_KEY = os.getenv("ANTHROPIC_API_KEY")
 if not API_KEY:
-    raise RuntimeError("❌ GEMINI_API_KEY not found in .env")
+    raise RuntimeError("❌ ANTHROPIC_API_KEY not found in .env")
 
 # --------------------------------------
-# Choose model (from your list)
-# BEST OPTION FOR YOUR CHATBOT:
-#   models/gemini-2.5-flash
+# Model + cost caps
+# Haiku 4.5: cheapest Claude model, fine for 2-5 sentence Q&A.
+# max_tokens caps the reply length so one request can't run up a bill.
 # --------------------------------------
-MODEL_NAME = "models/gemini-2.5-flash"
+MODEL_NAME = "claude-haiku-4-5"
+MAX_TOKENS = 512
+MAX_MESSAGE_LENGTH = 1000  # characters — reject anything longer before calling Claude
 
-# --------------------------------------
-# Initialize Google GenAI Client (v1)
-# --------------------------------------
-client = genai.Client(
-    api_key=API_KEY,
-    http_options=types.HttpOptions(api_version="v1"),
-)
+client = anthropic.Anthropic(api_key=API_KEY)
 
 # --------------------------------------
 # Load profile_optimized.txt (your background info)
@@ -88,13 +86,31 @@ def log_to_google_forms(user_message, reply_text, error_message):
 # Flask App
 # --------------------------------------
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+
+# Trust one layer of proxy (Heroku / Render / Cloudflare set X-Forwarded-For).
+# Without this, rate limits would see the proxy's IP and cap all traffic together.
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
+
+# CORS: only allow requests from your website.
+CORS(
+    app,
+    origins=["https://natanelnisenbaum.com"],
+)
+
+# Rate limit: per-IP caps. Defaults apply to every route;
+# /chat gets a tighter per-minute cap via the decorator below.
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+)
 
 @app.route("/")
 def health():
     return "Natanel Chatbot backend is running."
 
 @app.route("/chat", methods=["POST"])
+@limiter.limit("10 per minute")
 def chat():
     data = request.get_json() or {}
     user_message = data.get("message", "")
@@ -102,34 +118,39 @@ def chat():
     if not user_message:
         return jsonify({"error": "No message provided"}), 400
 
-    # Combine system prompt + user question
-    full_prompt = SYSTEM_PROMPT + "\n\nUser question:\n" + user_message
+    if len(user_message) > MAX_MESSAGE_LENGTH:
+        return jsonify({"error": f"Message too long (max {MAX_MESSAGE_LENGTH} characters)."}), 413
 
     reply_text = ""
     error_message = None
 
     try:
-        # Send to Gemini
-        response = client.models.generate_content(
+        # cache_control marks the system prompt as cacheable. On repeat requests
+        # the profile portion is served from cache at ~10% cost. Note: caching
+        # only kicks in once the cached prefix clears Haiku's 4096-token minimum,
+        # so a short profile won't actually cache — grow it or it's a no-op.
+        response = client.messages.create(
             model=MODEL_NAME,
-            contents=[{
-                "role": "user",
-                "parts": [{"text": full_prompt}]
-            }],
+            max_tokens=MAX_TOKENS,
+            system=[
+                {
+                    "type": "text",
+                    "text": SYSTEM_PROMPT,
+                    "cache_control": {"type": "ephemeral"},
+                }
+            ],
+            messages=[{"role": "user", "content": user_message}],
         )
-        reply_text = response.text
-    except Exception as e:
+        reply_text = next((b.text for b in response.content if b.type == "text"), "")
+    except anthropic.APIError as e:
         error_message = str(e)
-        reply_text = "I'm currently experiencing high traffic (API Quota Exceeded). Please try again in a minute."
+        reply_text = "I'm currently experiencing high traffic. Please try again in a minute."
 
-    # --------------------------------------
-    # Log to Google Forms in steps
-    # --------------------------------------
-    def log_background(msg, reply, err):
-        log_to_google_forms(msg, reply, err)
-
-    # Start logging in a background thread so we don't block the response
-    threading.Thread(target=log_background, args=(user_message, reply_text, error_message)).start()
+    # Log to Google Forms in a background thread so we don't block the response
+    threading.Thread(
+        target=log_to_google_forms,
+        args=(user_message, reply_text, error_message),
+    ).start()
 
     if error_message:
         return jsonify({"error": reply_text}), 503

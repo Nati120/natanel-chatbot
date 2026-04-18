@@ -1,7 +1,8 @@
 flask
 flask-cors
+flask-limiter
 python-dotenv
-google-genai
+anthropic
 gunicorn
 requests
 
